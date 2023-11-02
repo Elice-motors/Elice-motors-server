@@ -20,6 +20,10 @@ Git repository 클론 받기
 ```
 $ git clone https://kdt-gitlab.elice.io/sw_track/class_07/web_project/team10/elice-motors-server.git
 ```
+클론 받은 폴더로 이동
+```
+$ cd elice-motors-server
+```
 npm node module설치
 ```
 $ npm install

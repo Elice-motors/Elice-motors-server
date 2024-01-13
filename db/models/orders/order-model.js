@@ -2,23 +2,21 @@ import mongoose from "mongoose";
 const {Schema} = mongoose;
 
 const orderSchema = new Schema({
+  orderNumber: String,
   products: [
     {
       productInfo: {
-        name: String,
-        color: String,
+        carId: String,
+        carName: String,
+        img: String,
+        carPrice: Number,
         option: String,
-        price: Number,
+        color: String,
       },
-      quantity: Number,
     },
   ],
   totalAmount: {
     type: Number,
-    required: true,
-  },
-  user: {
-    type: String,
     required: true,
   },
   address: {
@@ -26,6 +24,10 @@ const orderSchema = new Schema({
     required: true,
   },
   status: {
+    type: String,
+    default: "주문 완료",
+  },
+  userId: {
     type: String,
     required: true,
   },

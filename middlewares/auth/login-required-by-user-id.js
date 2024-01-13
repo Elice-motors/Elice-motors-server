@@ -2,8 +2,8 @@ import jwt from "jsonwebtoken";
 import { User } from '../../db/models/users/user-model.js';
 
 
-async function login_required (req, res, next) {
-   const { shortId } = req.params || {};
+async function login_required_by_user_id (req, res, next) {
+   const { userId } = req.params || {};
 
    const userToken = req.headers["authorization"]?.split(" ")[1];
 
@@ -16,7 +16,7 @@ async function login_required (req, res, next) {
       const secretKey = process.env.JWT_SECRET_KEY || "jwt-secret-key";
       const jwtDecoded = jwt.verify(userToken, secretKey);
       const currentUser = await User.findOne(
-         {shortId: shortId},
+         {_id: userId},
          { _id: 1}
       );
 
@@ -41,4 +41,4 @@ async function login_required (req, res, next) {
 }
   
   
-export { login_required };
+export { login_required_by_user_id };

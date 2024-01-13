@@ -1,19 +1,19 @@
 
-import { Router } from 'express';
-import UserService from '../../services/user-service.js';
-import { login_required } from "../../middlewares/auth/login-required.js";
+import { Router } from "express";
+import UserService from "../../services/user-service.js";
+import { validator_admin } from "../../middlewares/validator/validator-admin.js";
 import { validator_params } from '../../middlewares/validator/validator-params.js';
-
+import { login_required } from "../../middlewares/auth/login-required.js";
 
 const userService = new UserService;
 const router = Router();
 
 
 /*
- * 모든 회원 정보 요청
+ * 모든 회원 정보 요청 (관리자 기능)
  */
 router.get("/",
-    login_required, // 토큰 검증 미들웨어
+    validator_admin, // 관리자 검증 미들웨어
     async (req, res, next) => {
         try {
             const result = await userService.getAllUsersInfo();
@@ -59,8 +59,6 @@ router.get("/:shortId",
                     user: result.user,
                 })
                 return;
-            } else if (result.message ==="NO_MATCHES") {
-                throw {status: 404, message: "존재하지 않는 계정입니다.",};
             } else {
                 throw {status: 404, message: "unknown error",};
             }
@@ -97,8 +95,6 @@ router.put("/:shortId",
                     user: result.user,
                 })
                 return;
-            } else if (result.message ==="NO_MATCHES") {
-                throw {status: 404, message: "존재하지 않는 계정입니다.",};
             } else {
                 throw {status: 404, message: "unknown error",};
             }
@@ -130,8 +126,6 @@ router.delete("/:shortId",
                     message: "회원 정보 삭제에 성공했습니다.",
                 })
                 return;
-            } else if (result.message ==="NO_MATCHES") {
-                throw {status: 404, message: "존재하지 않는 계정입니다.",};
             } else {
                 throw {status: 404, message: "unknown error",};
             }

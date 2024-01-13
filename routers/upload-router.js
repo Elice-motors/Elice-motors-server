@@ -1,14 +1,9 @@
-import CarService from "../../services/car-service.js";
-import {validator_carup} from "../../middlewares/validator/validator-carup.js";
-import { validator_admin } from "../../middlewares/validator/validator-admin.js";
 
-import {Router} from 'express';
+import { Router } from 'express';
+const router = Router();
 
 import multer from 'multer';
 import path from "path";
-
-const router = Router();
-const carService = new CarService;
 
 const storage = multer.diskStorage({
     destination: function(req, file, cb) {
@@ -23,15 +18,14 @@ const storage = multer.diskStorage({
 const upload = multer({ storage: storage });
 
 router.post("/",
-    validator_admin,
-    //upload.single('file'),
-    validator_carup,
+    upload.single('image'),
     async (req,res,next) => {
         try {
-            const result = await carService.CarUp(req.body); //, req.file.filename);
-            if(result.message = "SUCCESS"){
-                res.status(201).json({message:'상품 등록 성공', car: result.car});
+            const result = `/images/${req.file.filename}`;
+            if(!result) {
+                throw {status: "400", message: "업로드 중에 오류가 발생했습니다."}
             }
+            res.status(201).json({message: "업로드에 성공했습니다.", img: result});
         } catch (err) {
             res.status(err.status).json({message:err.message});
         }

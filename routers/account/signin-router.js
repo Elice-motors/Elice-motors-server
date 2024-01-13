@@ -25,10 +25,6 @@ router.post("/",
                     user: result.user,
                 });
                 return;        
-            } else if(result.message === "NOT_EXIST_USER") {
-                throw {status: 400, message: '이메일 또는 비밀번호를 확인해주세요.'};
-            }  else if(result.message === "NOT_MATCHED") {
-                throw {status: 400, message: '비밀번호가 일치하지 않습니다.'};
             } else {
                 throw {status: 404, message: 'unknown error'};
             }

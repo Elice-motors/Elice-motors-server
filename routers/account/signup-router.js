@@ -24,8 +24,6 @@ router.post("/",
                         user: result.user,
                     });
                 return;
-            } else if(result.message === "DUPLICATED") {
-                throw {status: 400, message: '이미 가입한 이메일입니다.'};
             } else {
                 throw {status: 404, message: 'unknown error'};
             }
